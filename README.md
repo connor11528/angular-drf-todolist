@@ -1,134 +1,41 @@
-django_drf_starter_project
+django-drf-angular-starter-project
 ====
+
+Create an app with django rest framework (drf) that uses angular.js on the frontend. This app will be built from the [django-drf-starter-project](https://github.com/jasonshark/django-drf-starter-project). If you are curious about how the django-drf-starter-project was built you can view the [tutorial here](https://coderwall.com/p/ympo6g/create-a-starter-template-for-working-with-django-rest-framework?p=1&q=).
+
+### Create the project
+```
+$ git clone git@github.com:jasonshark/django-drf-starter-project.git
+$ mv django-drf-starter-project django-drf-angular-starter-project
+$ cd django-drf-angular-starter-project
+```
+
+This downloads the [code](https://github.com/jasonshark/django-drf-starter-project) from part one and renames the project to angular name.
 
 ### Set up virtual environment
 
 ```
 $ source ~/.bash_profile
+$ mkvirtualenv django-drf-angular-starter-project # OR $ workon django-drf-angular-starter-project if you've already created the virtual environment
 $ lsvirtualenv
-$ mkvirtualenv django-drf-starter-project # OR $ workon django-drf-starter-project
+$ pip install -r requirements.txt
 ```
 
-### Create django app
+On my computer I have to source .bash_profile. I'm lazy and haven't fixed this. Hopefully you have [virtualenvwrapper](https://virtualenvwrapper.readthedocs.org/en/latest/) set up properly on your own machine. The last step installs django and django rest framework.
+
+### Tie it together with git
+
+So there's the base repo that has drf setup, then there's this one for specifically angular-drf integration. Essentially this repo inherits from jasonshark/django-drf-starter-project. If I change that repo I want to pull in those changes in to this repo. Here's how we do that:
 
 ```
-$ django-admin startproject django_drf_starter_project
-$ cd django_drf_starter_project
-$ pip install django djangorestframework
-$ pip freeze > requirements.txt
-$ ./manage.py runserver
+$ git remote rename origin upstream
+$ git remote add origin <github_url>
+$ git remote -v
+origin  git@github.com:jasonshark/django-drf-angular-starter-project.git (fetch)
+origin  git@github.com:jasonshark/django-drf-angular-starter-project.git (push)
+upstream    git@github.com:jasonshark/django-drf-starter-project.git (fetch)
+upstream    git@github.com:jasonshark/django-drf-starter-project.git (push)
 ```
 
-You should see "It worked!" at localhost:8000. (control + C stops server on mac). If you're using git also copy and paste in the `.gitignore` file from here so you don't commit garbage to version control.
-
-### Create a new app
-
-```
-$ ./manage.py startapp jsframework
-$ mkdir jsframework/templates
-$ mkdir jsframework/templates/jsframework
-$ touch jsframework/templates/jsframework/index.html jsframework/templates/jsframework/base.html
-```
-
-This creates a new app called jsframework within the django_drf_starter_project project. We also set up a templates folder where we will display our html templates. I made another folder called jsframework inside the templates directory. I know it looks a bit weird. We do this so we can namespace our templates later on when declaring routes. Django will automagically look in the `templates` directory for every app when compiling templates.
-
-### Let django know about it
-
-Modify `django_drf_starter_project/settings.py` to include the rest_framework app that we installed via pip and our jsframework app we created from the cli.
-
-```
-INSTALLED_APPS = (
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'rest_framework',
-    'jsframework',
-)
-```
-
-Also sync your database. Django will use sqlite as default. Run `./manage.py migrate` after updating your installed apps. A `db.sqlite3` file will get generated automagically. Our database is now in sync.
-
-![migrate it](http://media.giphy.com/media/XdlEHQpoHhy0g/giphy.gif)
-
-### Render templates to browser
-
-Create a `urls.py` file inside of the jsframework app. I know this is a bit convoluted since we already have a urls.py file in the project directory. We create a urls.py inside jsframework to hold all of the routes for the jsframework app. It's seperation of concerns.
-
-Define our route:
-
-```
-from django.conf.urls import url
-from . import views
-
-urlpatterns = [
-    url(r'^$', views.index, name='index'),
-]
-```
-
-Now we need to define the `index` view. If you're coming from rails or anything, a view in django is more like a controller. Templates are more like views. If that confused you, ignore it.
-
-jsframework/views.py
-```
-from django.shortcuts import render
-
-def index(request):
-    return render(request, 'jsframework/index.html')
-```
-
-Put text into `jsframework/templates/jsframework/index.html` so you have something to see. The file path is silly but hopefully you can see now why we namespace. Django automatically looks in templates directory for every app. If we had multiple apps the index.html path could get messy.
-
-Now let the main project `urls.py` now about the routes that we defined for our jsframework app. That is really simple. Add this line: `url(r'^/?', include('jsframework.urls')),`. That imports the routes from one url file into the other.
-
-You'll see text on the screen.
-
-### Template inheritance
-
-We want index.html to inherit from base.html. Add to base.html:
-
-```
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Let's get djangtahstie</title>
-    </head>
-
-    <body>
-        {% block content %}{% endblock %}
-    </body>
-</html>
-```
-
-Add to index.html:
-```
-{% extends "jsframework/base.html" %}
-
-{% block content %}
-	What up world?
-{% endblock %}
-``` 
-
-### Add static files
-
-Now we want to include our javascript and css files
-
-![Suits](http://media.tumblr.com/tumblr_m9un52Tttv1r7tvni.gif)
-
-Adding from cdn is really easy, it's the same as normal. If you want to include local static files things are a bit different. In settings.py there is a line `STATIC_URL = '/static/'` that tells django to look in folders within apps called static for static files. Create that inside jsframework as well as directories for css, images and js.
-
-```
-$ mkdir jsframework/static
-$ mkdir jsframework/static/js jsframework/static/css jsframework/static/img
-$ touch $ mkdir jsframework/static/js/main.js jsframework/static/css/main.css
-```
-
-In base.html add `{% load staticfiles %}` to line 1. Then reference script/link tags like so:
-
-```
-<link rel='stylesheet' href="{{STATIC_URL}}/css/main.css">
-<script src="{{STATIC_URL}}/js/main.js"></script>
-```
-
+So now I can push to this repo for the angular integration code and use `git pull upstream master` to take in changes from jasonshark/django-drf-starter-project.
 
