@@ -1,6 +1,10 @@
 angular-drf-todolist
 ====
 
+In this app we'll build a persistent todo list. The backend and database will be handled by django. django rest framework will convert the tabled data to JSON and angular will bring the frontend magic.
+
+![this is angular](http://cloud-4.steamusercontent.com/ugc/541889413256781007/8E0E1D04169BD1922CA1467046699255CEB69E02/)
+
 ### Clone the starter project
 
 I made a [angular-drf starter project](git@github.com:jasonshark/django-drf-angular-starter-project.git). We're going to start from there and build out the todolist. Clone it and give it a new name
