@@ -26,7 +26,7 @@ $ lsvirtualenv
 $ pip install -r requirements.txt
 ```
 
-# Launch server
+### Launch server
 
 ```
 $ ./manage.py migrate
@@ -36,3 +36,43 @@ $ ./manage.py runserver
 This sets up our database and starts the server. Go to `localhost:8000`. Now angular and drf play nicely
 
 ![django on the right](http://i62.tinypic.com/2z3uvfb.png)
+
+# Create Todo model
+
+This is the same as creating a table in our database to hold all of the todos. Each todo will take up a row in the table. The model defines what the columns are going to be. For each todo we'll have a title, description and is_completed.
+
+**jsframework/models.py**
+```
+from django.db import models
+
+class Todo(models.Model):
+    title = models.CharField(max_length=75)
+    description = models.TextField()
+    is_completed = models.BooleanField()
+
+    def __unicode__(self):
+        return self.title
+```
+
+Then make the migrations that turns the above python into a database table: 
+
+```
+$ ./manage.py makemigrations
+$ ./manage.py migrate
+```
+
+Check that it worked by opening up the shell and adding a todo:
+
+```
+$ ./manage.py shell
+>>> from jsframework.models import Todo
+>>> Todo.objects.all()
+[]
+>>> first_todo = Todo(title='first todo',description='a little bit softer now',is_completed='false')
+>>> first_todo.save()
+[<Todo: first todo>]
+```
+
+At first there's nothing, now it looks like we added a todo to the database. Really we want to display this in the browser as JSON so angular can play with it.
+
+
