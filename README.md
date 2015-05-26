@@ -1,6 +1,8 @@
 django-drf-angular-starter-project
 ====
 
+[![endorse](https://api.coderwall.com/cleechtech/endorsecount.png)](https://coderwall.com/cleechtech)
+
 Create an app with django rest framework (drf) that uses angular.js on the frontend. This app will be built from the [django-drf-starter-project](https://github.com/jasonshark/django-drf-starter-project). If you are curious about how the django-drf-starter-project was built you can view the [tutorial here](https://coderwall.com/p/ympo6g/create-a-starter-template-for-working-with-django-rest-framework?p=1&q=).
 
 ![Let's get started](http://media.giphy.com/media/mxDZecDOOsWCA/giphy.gif)
