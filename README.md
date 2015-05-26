@@ -31,5 +31,4 @@ $ ./manage.py runserver
 
 This sets up our database and starts the server. Go to `localhost:8000`. Now angular and drf play nicely
 
-![angular is on the right](http://media.giphy.com/media/wavzc3njwm82Q/giphy.gif)
-
+![django on the right](http://i62.tinypic.com/2z3uvfb.png)
