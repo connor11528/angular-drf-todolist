@@ -110,3 +110,25 @@ Add to index.html:
 {% endblock %}
 ``` 
 
+### Add static files
+
+Now we want to include our javascript and css files
+
+![Suits](http://media.tumblr.com/tumblr_m9un52Tttv1r7tvni.gif)
+
+Adding from cdn is really easy, it's the same as normal. If you want to include local static files things are a bit different. In settings.py there is a line `STATIC_URL = '/static/'` that tells django to look in folders within apps called static for static files. Create that inside jsframework as well as directories for css, images and js.
+
+```
+$ mkdir jsframework/static
+$ mkdir jsframework/static/js jsframework/static/css jsframework/static/img
+$ touch $ mkdir jsframework/static/js/main.js jsframework/static/css/main.css
+```
+
+In base.html add `{% load staticfiles %}` to line 1. Then reference script/link tags like so:
+
+```
+<link rel='stylesheet' href="{{STATIC_URL}}/css/main.css">
+<script src="{{STATIC_URL}}/js/main.js"></script>
+```
+
+

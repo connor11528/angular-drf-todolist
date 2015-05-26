@@ -1,10 +1,16 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
     <head>
         <title>Let's get djangtahstie</title>
-    </head>
 
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+        <link rel='stylesheet' href="{{STATIC_URL}}/css/main.css">
+    </head>
     <body>
         {% block content %}{% endblock %}
+
+        <script src="{{STATIC_URL}}/js/main.js"></script>
     </body>
 </html>
