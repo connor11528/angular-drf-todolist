@@ -37,7 +37,7 @@ This sets up our database and starts the server. Go to `localhost:8000`. Now ang
 
 ![django on the right](http://i62.tinypic.com/2z3uvfb.png)
 
-# Create Todo model
+### Create Todo model
 
 This is the same as creating a table in our database to hold all of the todos. Each todo will take up a row in the table. The model defines what the columns are going to be. For each todo we'll have a title, description and is_completed.
 
@@ -75,4 +75,49 @@ $ ./manage.py shell
 
 At first there's nothing, now it looks like we added a todo to the database. Really we want to display this in the browser as JSON so angular can play with it.
 
+### Serialize to JSON
 
+Create a TodoSerializer in a new file `jsframework/serializers.py`. This will convert our data into json.
+
+```
+from rest_framework import serializers
+from jsframework.models import Todo
+
+class TodoSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Todo
+```
+
+Now prep our views for rendering JSON:
+
+```
+from rest_framework import viewsets
+
+from jsframework.models import Todo
+from serializers import TodoSerializer
+
+class TodoViewSet(viewsets.ModelViewSet):
+	queryset = Todo.objects.all()
+	serializer_class = TodoSerializer
+```
+
+And then define the routes in `jsframework/urls.py`. These will define where and what JSON should be displayed.
+
+```
+from django.conf.urls import patterns, include, url
+from rest_framework import routers
+from . import views
+
+todo_router = routers.DefaultRouter()
+todo_router.register(r'todos', views.TodoViewSet, base_name='todos')
+
+urlpatterns = [
+	# Send base.html to angular
+    url(r'^$', views.index, name='index'),
+
+    url('^api/todos', include(todo_router.urls)),
+]
+```
+
+
+Hit `http://localhost:8000/api/todos` in your browser and you'll see output.
