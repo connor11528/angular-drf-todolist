@@ -34,6 +34,10 @@ app.controller('MainCtrl', function($scope, Todos, $state){
 		Todos.update(todo);
 	};
 
+	$scope.deleteTodo = function(id){
+		Todos.delete(id);
+	}
+
 	Todos.all().then(function(res){
 		$scope.todos = res.data;
 	});
@@ -48,6 +52,12 @@ app.service('Todos', function($http, BASE_URL){
 
 	Todos.update = function(updatedTodo){
 		return $http.put(BASE_URL + updatedTodo.id, updatedTodo);
+	};
+
+	Todos.delete = function(id){
+		return $http.delete(BASE_URL + id + '/').error(function(a, b, c){
+			console.log(a, b, c())
+		});
 	};
 
 	Todos.addOne = function(newTodo){

@@ -1,14 +1,11 @@
-<style>
-.completed {
-	text-decoration: line-through;
-}
-</style>
 <div class='row text-center'>
 	<h1>All Todos</h1>
 	<button ui-sref="add-todo">Add Todo</button>
 	<ul>
 		<li ng-repeat='todo in todos' ng-class="{completed: todo.is_completed}">
 			<input type="checkbox" ng-checked="todo.is_completed" ng-change="toggleCompleted(todo)" ng-model='todo.is_completed'>  {{todo.title}}
+
+			<span ng-click="deleteTodo(todo.id)">X</span>
 		</li>
 
 	</ul>
