@@ -1,12 +1,15 @@
 <div class='row text-center'>
-	<h1>All Todos</h1>
-	<button ui-sref="add-todo">Add Todo</button>
-	<ul>
-		<li ng-repeat='todo in todos' ng-class="{completed: todo.is_completed}">
-			<input type="checkbox" ng-checked="todo.is_completed" ng-change="toggleCompleted(todo)" ng-model='todo.is_completed'>  {{todo.title}}
+	<div class='col-sm-4 col-sm-offset-4'>
+		<h1>All Todos</h1>
 
-			<span ng-click="deleteTodo(todo.id)">X</span>
-		</li>
+		<button ui-sref="add-todo" class='btn btn-primary btn-lg' style='margin-bottom:20px;'>Add Todo</button>
 
-	</ul>
+		<ul class="list-group">
+			<li ng-repeat='todo in todos' ng-class="{completed: todo.is_completed}" class="list-group-item">
+				<input type="checkbox" ng-checked="todo.is_completed" ng-change="toggleCompleted(todo)" ng-model='todo.is_completed'>  {{todo.title}}
+
+				<span class='badge' ng-click="deleteTodo(todo.id)">X</span>
+			</li>
+		</ul>
+	</div>
 </div>

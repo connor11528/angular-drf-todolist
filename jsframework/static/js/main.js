@@ -26,7 +26,8 @@ app.controller('MainCtrl', function($scope, Todos, $state){
 	$scope.addTodo = function() {
 		Todos.addOne($scope.newTodo)
 			.then(function(res){
-				console.log('response from addTodo = ', res);
+				// redirect to homepage once added
+				$state.go('home');
 			});
 	};
 
@@ -36,7 +37,11 @@ app.controller('MainCtrl', function($scope, Todos, $state){
 
 	$scope.deleteTodo = function(id){
 		Todos.delete(id);
-	}
+		// update the list in ui
+		$scope.todos = $scope.todos.filter(function(todo){
+			return todo.id !== id;
+		})
+	};
 
 	Todos.all().then(function(res){
 		$scope.todos = res.data;
@@ -55,22 +60,12 @@ app.service('Todos', function($http, BASE_URL){
 	};
 
 	Todos.delete = function(id){
-		return $http.delete(BASE_URL + id + '/').error(function(a, b, c){
-			console.log(a, b, c())
-		});
+		return $http.delete(BASE_URL + id + '/');
 	};
 
 	Todos.addOne = function(newTodo){
-		return $http.post(BASE_URL, newTodo)
-			.success(function(data, status, headers){
-				console.log('success data =');
-				console.log(data);
-			})
-			.error(function(data, status, headers){
-				console.log('error data =');
-				console.log(data);
-			});
-	};
+        return $http.post(BASE_URL, newTodo)
+    };
 
 	return Todos;
 });
