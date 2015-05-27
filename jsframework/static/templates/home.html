@@ -1,5 +1,10 @@
 <div class='row text-center'>
-	<h1>What up world?</h1>
+	<h1>All Todos</h1>
+	<button ui-sref="add-todo">Add Todo</button>
+	<ul>
+		<li ng-repeat='todo in todos'>
+			<input type="checkbox" ng-checked="todo.is_completed">  {{todo.title}}
+		</li>
 
-	<p>{{ test }}</p>
+	</ul>
 </div>
