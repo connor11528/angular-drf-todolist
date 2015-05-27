@@ -43,7 +43,23 @@ app.service('Todos', function($http, BASE_URL){
 	};
 
 	Todos.addOne = function(newTodo){
-		return $http.post(BASE_URL, newTodo);
+		return $http.post(BASE_URL, newTodo)
+			.success(function(data, status, headers){
+				console.log('success data =');
+				console.log(data);
+				console.log('success status =');
+				console.log(status);
+				console.log('success headers =');
+				console.log(headers);
+			})
+			.error(function(data, status, headers){
+				console.log('error data =');
+				console.log(data);
+				console.log('error status =');
+				console.log(status);
+				console.log('error headers =');
+				console.dir(headers);
+			});
 	};
 
 	return Todos;
