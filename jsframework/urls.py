@@ -9,5 +9,5 @@ urlpatterns = [
 	# Send base.html to angular
     url(r'^$', views.index, name='index'),
 
-    url('^api/todos', include(todo_router.urls)),
+    url('^api/', include(todo_router.urls)),
 ]
