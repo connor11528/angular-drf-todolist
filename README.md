@@ -279,4 +279,4 @@ Then we have a page to add a todo:
 
 ![](http://media3.giphy.com/media/jYAGkoghdmD9S/giphy.gif)
 
-If you like the tutorial give the [repo](https://github.com/jasonshark/angular-drf-todolist) a star!
+If you like the tutorial give the [repo](https://github.com/connor11528/angular-drf-todolist) a star!
