@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import viewsets
 
 from jsframework.models import Todo
-from serializers import TodoSerializer
+from jsframework.serializers import TodoSerializer
 
 # Todos routes
 class TodoViewSet(viewsets.ModelViewSet):
